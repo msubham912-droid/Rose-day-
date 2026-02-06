@@ -16,7 +16,7 @@ html,body{
   color:#fff;
 }
 
-/* Canvas petals */
+/* Falling petals canvas */
 #petals{
   position:fixed;
   inset:0;
@@ -24,7 +24,7 @@ html,body{
   pointer-events:none;
 }
 
-/* Center */
+/* Intro container */
 .center{
   position:relative;
   z-index:3;
@@ -34,11 +34,23 @@ html,body{
   justify-content:center;
   align-items:center;
   text-align:center;
-  padding:20px;
+  padding:28px;
+  transition:opacity 1s ease;
 }
 
-h1{font-size:2rem;}
-p{max-width:320px;opacity:.9;}
+/* Contrast glass panel */
+.center::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(6px);
+  border-radius:22px;
+  z-index:-1;
+}
+
+h1{font-size:2rem;margin-bottom:8px;}
+p{max-width:320px;opacity:.95;}
 
 button{
   margin-top:24px;
@@ -61,9 +73,8 @@ button{
   z-index:2;
   pointer-events:none;
   opacity:0;
-  transition:opacity 0.8s ease;
+  transition:opacity .8s ease;
 }
-
 #rose.show{opacity:1;}
 
 .rose{
@@ -80,15 +91,13 @@ button{
   top:30px;
   left:50px;
   background:radial-gradient(circle at 30% 30%,#ffd1dc,#ff3d6a 70%,#8b0026);
-  border-radius:60% 60% 60% 60%;
+  border-radius:60%;
   transform-origin:bottom center;
   transform:rotate(var(--r)) scale(0);
   opacity:0;
   animation:bloom 1.6s cubic-bezier(.25,.8,.3,1) forwards;
-  will-change:transform,opacity;
 }
 
-/* Inner petals */
 .petal.inner{
   width:80px;
   height:110px;
@@ -97,16 +106,84 @@ button{
   filter:brightness(.95);
 }
 
-/* Bloom animation */
 @keyframes bloom{
-  from{
-    transform:rotate(var(--r)) scale(0);
-    opacity:0;
-  }
-  to{
-    transform:rotate(var(--r)) scale(1);
-    opacity:1;
-  }
+  from{transform:rotate(var(--r)) scale(0);opacity:0;}
+  to{transform:rotate(var(--r)) scale(1);opacity:1;}
+}
+
+/* Glow */
+.glow{
+  animation:heartbeat 3s ease-in-out infinite;
+}
+@keyframes heartbeat{
+  50%{filter:drop-shadow(0 0 18px rgba(255,80,120,.8));}
+}
+
+/* Mini background roses */
+.mini-rose{
+  position:fixed;
+  width:70px;
+  height:70px;
+  opacity:.25;
+  z-index:1;
+}
+.mini-rose .petal{
+  width:40px;
+  height:55px;
+  top:10px;
+  left:15px;
+  animation-duration:1.2s;
+}
+
+/* Love letter overlay */
+#letter{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(6px);
+  z-index:5;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .8s ease;
+}
+#letter.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.letter-box{
+  max-width:320px;
+  background:linear-gradient(145deg,#ffe6ee,#ffd1dc);
+  color:#7a0a2a;
+  padding:22px 20px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+  animation:letterPop .9s cubic-bezier(.2,.8,.3,1);
+}
+
+.letter-box h2{
+  margin:0 0 10px;
+  font-size:1.4rem;
+}
+
+.letter-box p{
+  font-size:.95rem;
+  line-height:1.5;
+}
+
+.tap-hint{
+  margin-top:14px;
+  font-size:.75rem;
+  opacity:.7;
+}
+
+@keyframes letterPop{
+  from{transform:translateY(20px) scale(.9);opacity:0;}
+  to{transform:translateY(0) scale(1);opacity:1;}
 }
 
 footer{
@@ -125,7 +202,7 @@ footer{
 
 <canvas id="petals"></canvas>
 
-<div class="center">
+<div class="center" id="intro">
   <h1>Happy Rose Day 🌹</h1>
   <p>Just like this rose, my feelings for you bloom with grace, patience, and dignity.</p>
   <button id="btn">Touch the Rose</button>
@@ -137,26 +214,39 @@ footer{
 
 <footer>Made with ❤️ just for you</footer>
 
+<!-- Love letter -->
+<div id="letter">
+  <div class="letter-box">
+    <h2>💌 For You</h2>
+    <p>
+      This rose blooms only once,<br>
+      but my feelings for you bloom every day.<br><br>
+      No matter where life takes us,<br>
+      you will always have a special place in my heart.
+    </p>
+    <div class="tap-hint">Tap anywhere to close</div>
+  </div>
+</div>
+
+<audio id="music" loop preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_8e6b8fda2f.mp3">
+</audio>
+
 <script>
 /* Falling petals */
-const canvas = document.getElementById('petals');
-const ctx = canvas.getContext('2d');
+const canvas=document.getElementById('petals');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+addEventListener('resize',resize);resize();
 
-function resize(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
-addEventListener('resize',resize);
-resize();
-
-const petals = Array.from({length:40},()=>({
+const petals=Array.from({length:40},()=>({
   x:Math.random()*canvas.width,
   y:Math.random()*canvas.height,
   s:1+Math.random()*2,
   r:6+Math.random()*6
 }));
 
-function animate(){
+(function anim(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle='#ff4f7b';
   petals.forEach(p=>{
@@ -166,31 +256,30 @@ function animate(){
     p.y+=p.s;
     if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;}
   });
-  requestAnimationFrame(animate);
-}
-animate();
+  requestAnimationFrame(anim);
+})();
 
-/* Rose bloom */
+/* Rose logic */
 const btn=document.getElementById('btn');
 const rose=document.getElementById('rose');
 const roseInner=document.getElementById('roseInner');
+const music=document.getElementById('music');
 
 btn.onclick=()=>{
+  document.getElementById('intro').style.opacity=.15;
+
   if(!roseInner.children.length){
-    const outer=16;
-    for(let i=0;i<outer;i++){
+    for(let i=0;i<16;i++){
       const p=document.createElement('div');
       p.className='petal';
-      p.style.setProperty('--r',`${360/outer*i}deg`);
+      p.style.setProperty('--r',`${360/16*i}deg`);
       p.style.animationDelay=`${i*0.08}s`;
       roseInner.appendChild(p);
     }
-
-    const inner=8;
-    for(let i=0;i<inner;i++){
+    for(let i=0;i<8;i++){
       const p=document.createElement('div');
       p.className='petal inner';
-      p.style.setProperty('--r',`${360/inner*i}deg`);
+      p.style.setProperty('--r',`${360/8*i}deg`);
       p.style.animationDelay=`${1.4+i*0.1}s`;
       roseInner.appendChild(p);
     }
@@ -198,7 +287,41 @@ btn.onclick=()=>{
 
   rose.classList.add('show');
   btn.style.display='none';
+
+  music.volume=.25;
+  music.play().catch(()=>{});
+
+  setTimeout(()=>roseInner.classList.add('glow'),2500);
+
+  /* Mini flowers */
+  setTimeout(()=>{
+    for(let i=0;i<10;i++){
+      const mini=document.createElement('div');
+      mini.className='mini-rose';
+      mini.style.left=Math.random()*90+'%';
+      mini.style.top=Math.random()*90+'%';
+      for(let j=0;j<6;j++){
+        const p=document.createElement('div');
+        p.className='petal';
+        p.style.setProperty('--r',`${360/6*j}deg`);
+        p.style.animationDelay=`${j*0.1}s`;
+        mini.appendChild(p);
+      }
+      document.body.appendChild(mini);
+    }
+  },1200);
+
+  /* Love letter */
+  setTimeout(()=>{
+    document.getElementById('letter').classList.add('show');
+  },4200);
+};
+
+/* Close letter */
+document.getElementById('letter').onclick=()=>{
+  document.getElementById('letter').classList.remove('show');
 };
 </script>
+
 </body>
 </html>
