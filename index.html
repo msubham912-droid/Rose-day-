@@ -1,277 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>Happy Chocolate Day Moulima 🍫❤️</title>
 
-<title>Happy Teddy Day Moulima</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* GLOBAL RESET + ANDROID TAP FIX */
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:system-ui,sans-serif;
--webkit-tap-highlight-color:transparent;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+  -webkit-tap-highlight-color:transparent;
 }
 
-img,button,div{
-outline:none;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  touch-action:none;
+  background:#7b1f2a;
+  color:#fff;
 }
 
-img:focus,button:focus,div:focus{
-outline:none;
-}
-
-/* BODY */
-
-body{
-background:linear-gradient(180deg,#ffd6e6,#ffeaf3);
-overflow:hidden;
-}
-
-/* PAGES */
-
+/* ---------- COMMON ---------- */
 .page{
-position:absolute;
-width:100%;
-height:100%;
-display:none;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
-z-index:2;
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  transition:opacity .7s ease, transform .7s ease;
+  z-index:2;
 }
 
-.page.active{display:flex;}
-
-h1{font-size:26px;margin-bottom:10px;}
-p{font-size:16px;max-width:300px;margin-bottom:18px;opacity:.9;}
-
-/* BUTTON */
-
-button{
-padding:14px 26px;
-border:none;
-border-radius:30px;
-background:#ff6fa5;
-color:white;
-font-size:16px;
-box-shadow:0 6px 14px rgba(0,0,0,.15);
+.hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:scale(1.04);
 }
 
-button:active{transform:scale(.95);}
-
-/* GIF */
-
-.gif{
-width:200px;
-border-radius:16px;
-margin-top:10px;
-box-shadow:0 6px 16px rgba(0,0,0,.15);
+.card{
+  background:rgba(60,10,10,.55);
+  padding:26px;
+  border-radius:22px;
+  width:85%;
+  max-width:380px;
+  text-align:center;
+  box-shadow:0 0 40px rgba(255,140,140,.35);
 }
 
-/* CHASE AREA */
-
-.playArea{
-position:relative;
-width:100%;
-height:55vh;
+/* ---------- PAGE 1 ---------- */
+#page1{
+  background:radial-gradient(circle at top,#a83246,#6b1f2a);
 }
 
-.teddy{
-position:absolute;
-font-size:90px;
-cursor:pointer;
-transition:.25s;
+.typewriter{
+  font-size:24px;
+  text-align:center;
+  width:85%;
+  min-height:100px;
 }
 
-.teddy:active{
-transform:scale(.9);
+/* ✅ Gradient white button */
+.btn{
+  margin-top:28px;
+  padding:14px 36px;
+  border-radius:50px;
+  background:linear-gradient(180deg,#ffffff,#ececec);
+  color:#7b1f2a;
+  border:none;
+  font-size:18px;
+  font-weight:600;
+  box-shadow:0 10px 28px rgba(0,0,0,.35);
+  animation:pulse 1.4s infinite;
 }
 
-.dialog{
-position:absolute;
-background:white;
-padding:8px 12px;
-border-radius:14px;
-font-size:14px;
-box-shadow:0 4px 8px rgba(0,0,0,.15);
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+  100%{transform:scale(1)}
 }
 
-/* PETALS */
-
-.petals{
-position:fixed;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:1;
-}
-
-.petal{
-position:absolute;
-font-size:18px;
-opacity:.5;
-animation:fall linear infinite;
+/* ---------- BACKGROUND CHOCOLATE RAIN ---------- */
+.bg-choco{
+  position:absolute;
+  top:-40px;
+  font-size:24px;
+  opacity:.55;
+  animation:fall linear forwards;
+  pointer-events:none;
+  z-index:1;
 }
 
 @keyframes fall{
-from{transform:translateY(-10vh);}
-to{transform:translateY(110vh);}
+  to{transform:translateY(110vh)}
 }
 
+/* ---------- GAME ---------- */
+#page3{
+  background:radial-gradient(circle,#a83246,#6b1f2a);
+}
+
+#basket{
+  position:absolute;
+  bottom:20px;
+  font-size:52px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+#counter{
+  position:absolute;
+  top:14px;
+  font-size:18px;
+  opacity:.95;
+}
+
+/* ---------- FIREWORKS ---------- */
+.firework{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
+}
+
+/* ---------- FINAL ---------- */
+#page4{
+  background:radial-gradient(circle,#b8324a,#7b1f2a);
+  text-align:center;
+}
+
+.heart{
+  font-size:90px;
+  animation:beat 1s infinite;
+}
+
+@keyframes beat{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+  100%{transform:scale(1)}
+}
+
+.envelope{
+  margin-top:24px;
+  font-size:52px;
+  animation:pulse 1.5s infinite;
+}
+
+.letter{
+  display:none;
+  margin-top:18px;
+  font-size:18px;
+  line-height:1.6;
+}
 </style>
 </head>
 
 <body>
 
-<div class="petals" id="petals"></div>
+<audio id="unwrap" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-paper-tear-2994.mp3"></audio>
+<audio id="bite" src="https://assets.mixkit.co/sfx/preview/mixkit-crunchy-bite-183.wav"></audio>
+<audio id="success" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-win-2037.wav"></audio>
+<audio id="bgm" src="https://assets.mixkit.co/music/preview/mixkit-romantic-piano-224.mp3" loop></audio>
 
 <!-- PAGE 1 -->
-<div class="page active">
-<h1>Happy Teddy Day, Moulima 🧸</h1>
-<p>A tiny teddy surprise journey made just for you…</p>
-<button onclick="nextPage()">Start</button>
+<div class="page" id="page1">
+  <div class="typewriter" id="text"></div>
+  <button class="btn" onclick="openChocolate()">Unwrap Your Chocolate 🍫</button>
 </div>
 
 <!-- PAGE 2 -->
-<div class="page">
-<h1>A Teddy Hug For You 💞</h1>
-
-<p>
-If hugs could travel through screens,  
-this teddy would wrap you in the warmest one.
-</p>
-
-<img class="gif"
-src="hug.gif"
-alt="cute hug">
-
-<button onclick="nextPage()">Next Surprise</button>
+<div class="page hidden" id="page2">
+  <div class="card">
+    <h2>Chocolate Shower 🍫✨</h2>
+    <p style="margin-top:16px">
+      Chocolates falling…<br>
+      just like my guard when I’m with you 😌
+    </p>
+    <p style="margin-top:18px;opacity:.9">
+      👉 Tap anywhere to continue
+    </p>
+  </div>
 </div>
 
-<!-- PAGE 3 -->
-<div class="page">
-<h1>Play Time!</h1>
-<p>Catch the teddy!</p>
-
-<div class="playArea" id="playArea">
-<div class="dialog" id="dialog">Play with me!</div>
-<div class="teddy" id="teddy">🧸</div>
-</div>
-</div>
-
-<!-- PAGE 4 -->
-<div class="page">
-<h1>Sweet Message</h1>
-<p>“Your presence feels like home — warm, safe, and peaceful.”</p>
-<p>“Every moment with you becomes a memory I never want to lose.”</p>
-<p>“If I had to choose again, I would still choose you, every single time.”
-</p>
-<button onclick="nextPage()">Final Surprise</button>
+<!-- INSTRUCTIONS -->
+<div class="page hidden" id="instructions">
+  <div class="card">
+    <h2>🍫 Catch Game</h2>
+    <p style="margin-top:16px">
+      Move the basket with your finger<br><br>
+      Catch <b>5 chocolates</b><br><br>
+      💝 A secret waits for you
+    </p>
+    <button class="btn" onclick="startGamePage()">Start Game 🎮</button>
+  </div>
 </div>
 
-<!-- PAGE 5 -->
-<div class="page">
-<h1>You’re My Favorite Comfort 💖</h1>
-<p>
-“Some people walk in quietly and become the most important part of your world — you are that for me.”
+<!-- GAME -->
+<div class="page hidden" id="page3">
+  <div id="counter">Chocolates: 0</div>
+  <div id="basket">🧺</div>
+</div>
+
+<!-- SCORE -->
+<div class="page hidden" id="scoreCard">
+  <div class="card">
+    <h1>🎉 You Did It</h1>
+    <p id="finalScore" style="margin-top:14px"></p>
+    <button class="btn" onclick="showFinal()">Your Surprise 💖</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="page hidden" id="page4">
+  <div class="heart">❤️</div>
+  <h1 id="nameLine"></h1>
+  <p style="margin-top:16px">
+    I may joke, tease, and pretend I’m tough 😌<br>
+    but loving you is the softest truth in my life.
   </p>
-<p>“With you, even ordinary days feel special.”</p>
-<p>“I still smile like an idiot when I see your name on my phone.”</p>
-<p>“I don’t know how you do it, but you make my worst days better just by being there.”
-</p>
-
-<img class="gif"
-src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+  <p style="margin-top:18px;font-size:22px;font-weight:600">
+    Forever yours, in every lifetime 💝
+  </p>
+  <div class="envelope" onclick="openLetter()">💌</div>
+  <div class="letter" id="letter">
+    With you, even ordinary days feel sweet.<br>
+    Every smile, every fight, every silence —<br>
+    I choose you ❤️
+  </div>
 </div>
 
 <script>
+/* ---------- TYPEWRITER ---------- */
+const intro="Hey Moulima 😏… I wrapped a little piece of my heart in chocolate, just for you 💝";
+let ti=0;
+(function type(){
+  if(ti<intro.length){
+    text.innerHTML+=intro[ti++];
+    setTimeout(type,70);
+  }
+})();
 
-/* PAGE NAVIGATION */
+/* ---------- BACKGROUND CONTINUOUS RAIN ---------- */
+setInterval(()=>{
+  const c=document.createElement('div');
+  c.className='bg-choco';
+  c.innerText='🍫';
+  c.style.left=Math.random()*100+'vw';
+  c.style.animationDuration=5+Math.random()*3+'s';
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),8000);
+},500);
 
-const pages=document.querySelectorAll(".page");
-let index=0;
-
-function nextPage(){
-if(index<pages.length-1){
-pages[index].classList.remove("active");
-index++;
-pages[index].classList.add("active");
-
-if(index===2) resetChase();
-}
-}
-
-/* CHASE GAME */
-
-const teddy=document.getElementById("teddy");
-const playArea=document.getElementById("playArea");
-const dialog=document.getElementById("dialog");
-
-let catches=0;
-
-function resetChase(){
-catches=0;
-dialog.innerText="Play with me!";
-moveCenter();
+/* ---------- FLOW ---------- */
+function openChocolate(){
+  unwrap.play();
+  page1.classList.add('hidden');
+  page2.classList.remove('hidden');
 }
 
-function moveCenter(){
-setPos(
-playArea.clientWidth/2-40,
-playArea.clientHeight/2-40
-);
+page2.onclick=()=>{
+  page2.classList.add('hidden');
+  instructions.classList.remove('hidden');
+};
+
+/* ---------- GAME ---------- */
+let score=0, dropTimer;
+const basket=document.getElementById('basket');
+
+document.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  basket.style.left=e.touches[0].clientX+'px';
+},{passive:false});
+
+function startGamePage(){
+  instructions.classList.add('hidden');
+  page3.classList.remove('hidden');
+  startGame();
 }
 
-function setPos(x,y){
-teddy.style.left=x+"px";
-teddy.style.top=y+"px";
+function startGame(){
+  score=0;
+  counter.innerText="Chocolates: 0";
 
-dialog.style.left=(x-90)+"px";
-dialog.style.top=y+"px";
+  dropTimer=setInterval(()=>{
+    const c=document.createElement('div');
+    c.className='bg-choco';
+    c.innerText='🍫';
+    c.style.left=Math.random()*90+'vw';
+    c.style.animationDuration='3s';
+    page3.appendChild(c);
+
+    const hit=setInterval(()=>{
+      const cr=c.getBoundingClientRect();
+      const br=basket.getBoundingClientRect();
+      if(cr.bottom>br.top && cr.left<br.right && cr.right>br.left){
+        bite.play();
+        score++;
+        counter.innerText="Chocolates: "+score;
+        c.remove();
+        clearInterval(hit);
+        if(score===5) endGame();
+      }
+    },40);
+
+    setTimeout(()=>{c.remove();clearInterval(hit)},3000);
+  },800);
 }
 
-function randomMove(){
-setPos(
-Math.random()*(playArea.clientWidth-80),
-Math.random()*(playArea.clientHeight-80)
-);
+function endGame(){
+  clearInterval(dropTimer);
+  success.play();
+  page3.classList.add('hidden');
+  finalScore.innerText="Every chocolate, just like my heart — caught by you 🍫❤️";
+  scoreCard.classList.remove('hidden');
+  fireworks();
 }
 
-teddy.addEventListener("click",()=>{
-
-catches++;
-
-if(catches<5){
-randomMove();
-}
-else{
-dialog.innerText="Yeah! You caught me!";
-setTimeout(nextPage,800);
-}
-
-});
-
-/* PETALS */
-
-const container=document.getElementById("petals");
-
-for(let i=0;i<14;i++){
-let p=document.createElement("div");
-p.className="petal";
-p.textContent=Math.random()>0.5?"🌸":"🌹";
-p.style.left=Math.random()*100+"vw";
-p.style.animationDuration=(6+Math.random()*6)+"s";
-container.appendChild(p);
+/* ---------- FIREWORKS ---------- */
+function fireworks(){
+  for(let i=0;i<28;i++){
+    const f=document.createElement('div');
+    f.className='firework';
+    f.style.left='50%';
+    f.style.top='40%';
+    f.style.background='hsl('+Math.random()*360+',100%,75%)';
+    f.style.setProperty('--x',(Math.random()*300-150)+'px');
+    f.style.setProperty('--y',(Math.random()*300-150)+'px');
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
 }
 
+function showFinal(){
+  scoreCard.classList.add('hidden');
+  page4.classList.remove('hidden');
+  bgm.play();
+  typeName();
+}
+
+/* ---------- NAME TYPE ---------- */
+const nameText="Happy Chocolate Day, Moulima 🍫";
+let ni=0;
+function typeName(){
+  if(ni<nameText.length){
+    nameLine.innerHTML+=nameText[ni++];
+    setTimeout(typeName,80);
+  }
+}
+
+function openLetter(){
+  letter.style.display='block';
+}
 </script>
 
 </body>
